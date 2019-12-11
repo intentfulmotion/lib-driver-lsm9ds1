@@ -337,6 +337,13 @@ public:
 	
 	// getFIFOSamples() - Get number of FIFO samples
 	uint8_t getFIFOSamples();
+
+	void disableAccel();
+	void disableGyro();
+	void disableMag();
+	void setMagPerformanceMode(uint8_t mode);
+	void setMagOperatingMode(uint8_t mode);
+	void toggleLowPowerMode(bool enable);
 		
 
 protected:	
@@ -521,14 +528,6 @@ protected:
 	// Output: No value is returned by the function, but the registers read are
 	// 		all stored in the *dest array given.
 	uint8_t I2CreadBytes(uint8_t address, uint8_t subAddress, uint8_t * dest, uint8_t count);
-
-	void disableAccel();
-	void disableGyro();
-	void disableMag();
-	void setMagPerformanceMode(uint8_t mode);
-	void setMagOperatingMode(uint8_t mode);
-	void toggleLowPowerMode(bool enable);
-	
 };
 
 #endif // SFE_LSM9DS1_H //
