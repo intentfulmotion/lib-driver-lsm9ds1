@@ -52,6 +52,13 @@ LSM9DS1::LSM9DS1()
 {
 }
 
+LSM9DS1::~LSM9DS1()
+{
+	disableAccel();
+	disableGyro();
+	disableMag();
+}
+
 void LSM9DS1::init()
 {
 	settings.gyro.enabled = true;
@@ -763,36 +770,28 @@ void LSM9DS1::setMagScale(uint8_t mScl)
 
 void LSM9DS1::setGyroODR(uint8_t gRate)
 {
-	// Only do this if gRate is not 0 (which would disable the gyro)
-	if ((gRate & 0x07) != 0)
-	{
-		// We need to preserve the other bytes in CTRL_REG1_G. So, first read it:
-		uint8_t temp = xgReadByte(CTRL_REG1_G);
-		// Then mask out the gyro ODR bits:
-		temp &= 0xFF^(0x7 << 5);
-		temp |= (gRate & 0x07) << 5;
-		// Update our settings struct
-		settings.gyro.sampleRate = gRate & 0x07;
-		// And write the new register value back into CTRL_REG1_G:
-		xgWriteByte(CTRL_REG1_G, temp);
-	}
+	// We need to preserve the other bytes in CTRL_REG1_G. So, first read it:
+	uint8_t temp = xgReadByte(CTRL_REG1_G);
+	// Then mask out the gyro ODR bits:
+	temp &= 0xFF^(0x7 << 5);
+	temp |= (gRate & 0x07) << 5;
+	// Update our settings struct
+	settings.gyro.sampleRate = gRate & 0x07;
+	// And write the new register value back into CTRL_REG1_G:
+	xgWriteByte(CTRL_REG1_G, temp);
 }
 
 void LSM9DS1::setAccelODR(uint8_t aRate)
 {
-	// Only do this if aRate is not 0 (which would disable the accel)
-	if ((aRate & 0x07) != 0)
-	{
-		// We need to preserve the other bytes in CTRL_REG1_XM. So, first read it:
-		uint8_t temp = xgReadByte(CTRL_REG6_XL);
-		// Then mask out the accel ODR bits:
-		temp &= 0x1F;
-		// Then shift in our new ODR bits:
-		temp |= ((aRate & 0x07) << 5);
-		settings.accel.sampleRate = aRate & 0x07;
-		// And write the new register value back into CTRL_REG1_XM:
-		xgWriteByte(CTRL_REG6_XL, temp);
-	}
+	// We need to preserve the other bytes in CTRL_REG1_XM. So, first read it:
+	uint8_t temp = xgReadByte(CTRL_REG6_XL);
+	// Then mask out the accel ODR bits:
+	temp &= 0x1F;
+	// Then shift in our new ODR bits:
+	temp |= ((aRate & 0x07) << 5);
+	settings.accel.sampleRate = aRate & 0x07;
+	// And write the new register value back into CTRL_REG1_XM:
+	xgWriteByte(CTRL_REG6_XL, temp);
 }
 
 void LSM9DS1::setMagODR(uint8_t mRate)
@@ -1228,4 +1227,57 @@ uint8_t LSM9DS1::I2CreadBytes(uint8_t address, uint8_t subAddress, uint8_t * des
 		dest[i++] = settings.device.i2c->read();
 
 	return count;
+}
+
+void LSM9DS1::disableAccel()
+{
+	setAccelODR(0);
+}
+
+void LSM9DS1::disableGyro()
+{
+	setGyroODR(0);
+}
+
+void LSM9DS1::disableMag()
+{
+	setMagPerformanceMode(0);
+	setMagOperatingMode(0x02);
+}
+
+void LSM9DS1::setMagPerformanceMode(uint8_t mode)
+{
+	settings.mag.XYPerformance = mode;
+	settings.mag.ZPerformance = mode;
+
+	uint8_t temp = mReadByte(CTRL_REG1_M);
+	temp |= (settings.mag.XYPerformance & 0x3) << 5;
+	mWriteByte(CTRL_REG1_M, temp);
+
+	temp = mReadByte(CTRL_REG4_M);
+	temp = (settings.mag.ZPerformance & 0x3) << 2;
+	mWriteByte(CTRL_REG4_M, temp);
+}
+
+void LSM9DS1::setMagOperatingMode(uint8_t mode)
+{
+	settings.mag.operatingMode = mode;
+
+	uint8_t temp = mReadByte(CTRL_REG3_M);
+	temp |= (settings.mag.operatingMode & 0x3);
+	mWriteByte(CTRL_REG3_M, temp);
+}
+
+void LSM9DS1::toggleLowPowerMode(bool enable)
+{
+	settings.gyro.lowPowerEnable = enable;
+	settings.mag.lowPowerEnable = enable;
+
+	uint8_t temp = xgReadByte(CTRL_REG3_G);
+	temp |= settings.gyro.lowPowerEnable ? (1<<7) : (0<<7);
+	xgWriteByte(CTRL_REG3_G, temp);
+
+	temp = mReadByte(CTRL_REG3_M);
+	temp |= settings.mag.lowPowerEnable ? (1<<5) : (0<<5);
+	mWriteByte(CTRL_REG3_M, temp);
 }

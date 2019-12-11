@@ -70,6 +70,7 @@ public:
 	//	- mAddr = If IMU_MODE_I2C, this is the I2C address of the magnetometer.
 	//				If IMU_MODE_SPI, this is the cs pin of the magnetometer (CS_M)
 	LSM9DS1();
+	~LSM9DS1();
 		
 	// begin() and beginSPI() -- Initialize the gyro, accelerometer, and magnetometer.
 	// This will set up the scale and output rate of each sensor. The values set
@@ -520,6 +521,14 @@ protected:
 	// Output: No value is returned by the function, but the registers read are
 	// 		all stored in the *dest array given.
 	uint8_t I2CreadBytes(uint8_t address, uint8_t subAddress, uint8_t * dest, uint8_t count);
+
+	void disableAccel();
+	void disableGyro();
+	void disableMag();
+	void setMagPerformanceMode(uint8_t mode);
+	void setMagOperatingMode(uint8_t mode);
+	void toggleLowPowerMode(bool enable);
+	
 };
 
 #endif // SFE_LSM9DS1_H //
