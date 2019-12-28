@@ -61,79 +61,79 @@ LSM9DS1::~LSM9DS1()
 
 void LSM9DS1::init()
 {
-	settings.gyro.enabled = true;
-	settings.gyro.enableX = true;
-	settings.gyro.enableY = true;
-	settings.gyro.enableZ = true;
-	// gyro scale can be 245, 500, or 2000
-	settings.gyro.scale = 245;
-	// gyro sample rate: value between 1-6
-	// 1 = 14.9    4 = 238
-	// 2 = 59.5    5 = 476
-	// 3 = 119     6 = 952
-	settings.gyro.sampleRate = 6;
-	// gyro cutoff frequency: value between 0-3
-	// Actual value of cutoff frequency depends
-	// on sample rate.
-	settings.gyro.bandwidth = 0;
-	settings.gyro.lowPowerEnable = false;
-	settings.gyro.HPFEnable = false;
-	// Gyro HPF cutoff frequency: value between 0-9
-	// Actual value depends on sample rate. Only applies
-	// if gyroHPFEnable is true.
-	settings.gyro.HPFCutoff = 0;
-	settings.gyro.flipX = false;
-	settings.gyro.flipY = false;
-	settings.gyro.flipZ = false;
-	settings.gyro.orientation = 0;
-	settings.gyro.latchInterrupt = true;
+	// settings.gyro.enabled = true;
+	// settings.gyro.enableX = true;
+	// settings.gyro.enableY = true;
+	// settings.gyro.enableZ = true;
+	// // gyro scale can be 245, 500, or 2000
+	// settings.gyro.scale = 245;
+	// // gyro sample rate: value between 1-6
+	// // 1 = 14.9    4 = 238
+	// // 2 = 59.5    5 = 476
+	// // 3 = 119     6 = 952
+	// settings.gyro.sampleRate = 6;
+	// // gyro cutoff frequency: value between 0-3
+	// // Actual value of cutoff frequency depends
+	// // on sample rate.
+	// settings.gyro.bandwidth = 0;
+	// settings.gyro.lowPowerEnable = false;
+	// settings.gyro.HPFEnable = false;
+	// // Gyro HPF cutoff frequency: value between 0-9
+	// // Actual value depends on sample rate. Only applies
+	// // if gyroHPFEnable is true.
+	// settings.gyro.HPFCutoff = 0;
+	// settings.gyro.flipX = false;
+	// settings.gyro.flipY = false;
+	// settings.gyro.flipZ = false;
+	// settings.gyro.orientation = 0;
+	// settings.gyro.latchInterrupt = true;
 
-	settings.accel.enabled = true;
-	settings.accel.enableX = true;
-	settings.accel.enableY = true;
-	settings.accel.enableZ = true;
-	// accel scale can be 2, 4, 8, or 16
-	settings.accel.scale = 2;
-	// accel sample rate can be 1-6
-	// 1 = 10 Hz    4 = 238 Hz
-	// 2 = 50 Hz    5 = 476 Hz
-	// 3 = 119 Hz   6 = 952 Hz
-	settings.accel.sampleRate = 6;
-	// Accel cutoff freqeuncy can be any value between -1 - 3. 
-	// -1 = bandwidth determined by sample rate
-	// 0 = 408 Hz   2 = 105 Hz
-	// 1 = 211 Hz   3 = 50 Hz
-	settings.accel.bandwidth = -1;
-	settings.accel.highResEnable = false;
-	// accelHighResBandwidth can be any value between 0-3
-	// LP cutoff is set to a factor of sample rate
-	// 0 = ODR/50    2 = ODR/9
-	// 1 = ODR/100   3 = ODR/400
-	settings.accel.highResBandwidth = 0;
+	// settings.accel.enabled = true;
+	// settings.accel.enableX = true;
+	// settings.accel.enableY = true;
+	// settings.accel.enableZ = true;
+	// // accel scale can be 2, 4, 8, or 16
+	// settings.accel.scale = 2;
+	// // accel sample rate can be 1-6
+	// // 1 = 10 Hz    4 = 238 Hz
+	// // 2 = 50 Hz    5 = 476 Hz
+	// // 3 = 119 Hz   6 = 952 Hz
+	// settings.accel.sampleRate = 6;
+	// // Accel cutoff freqeuncy can be any value between -1 - 3. 
+	// // -1 = bandwidth determined by sample rate
+	// // 0 = 408 Hz   2 = 105 Hz
+	// // 1 = 211 Hz   3 = 50 Hz
+	// settings.accel.bandwidth = -1;
+	// settings.accel.highResEnable = false;
+	// // accelHighResBandwidth can be any value between 0-3
+	// // LP cutoff is set to a factor of sample rate
+	// // 0 = ODR/50    2 = ODR/9
+	// // 1 = ODR/100   3 = ODR/400
+	// settings.accel.highResBandwidth = 0;
 
-	settings.mag.enabled = true;
-	// mag scale can be 4, 8, 12, or 16
-	settings.mag.scale = 4;
-	// mag data rate can be 0-7
-	// 0 = 0.625 Hz  4 = 10 Hz
-	// 1 = 1.25 Hz   5 = 20 Hz
-	// 2 = 2.5 Hz    6 = 40 Hz
-	// 3 = 5 Hz      7 = 80 Hz
-	settings.mag.sampleRate = 7;
-	settings.mag.tempCompensationEnable = false;
-	// magPerformance can be any value between 0-3
-	// 0 = Low power mode      2 = high performance
-	// 1 = medium performance  3 = ultra-high performance
-	settings.mag.XYPerformance = 3;
-	settings.mag.ZPerformance = 3;
-	settings.mag.lowPowerEnable = false;
-	// magOperatingMode can be 0-2
-	// 0 = continuous conversion
-	// 1 = single-conversion
-	// 2 = power down
-	settings.mag.operatingMode = 0;
+	// settings.mag.enabled = true;
+	// // mag scale can be 4, 8, 12, or 16
+	// settings.mag.scale = 4;
+	// // mag data rate can be 0-7
+	// // 0 = 0.625 Hz  4 = 10 Hz
+	// // 1 = 1.25 Hz   5 = 20 Hz
+	// // 2 = 2.5 Hz    6 = 40 Hz
+	// // 3 = 5 Hz      7 = 80 Hz
+	// settings.mag.sampleRate = 7;
+	// settings.mag.tempCompensationEnable = false;
+	// // magPerformance can be any value between 0-3
+	// // 0 = Low power mode      2 = high performance
+	// // 1 = medium performance  3 = ultra-high performance
+	// settings.mag.XYPerformance = 3;
+	// settings.mag.ZPerformance = 3;
+	// settings.mag.lowPowerEnable = false;
+	// // magOperatingMode can be 0-2
+	// // 0 = continuous conversion
+	// // 1 = single-conversion
+	// // 2 = power down
+	// settings.mag.operatingMode = 0;
 
-	settings.temp.enabled = true;
+	// settings.temp.enabled = true;
 	for (int i=0; i<3; i++)
 	{
 		gBias[i] = 0;
@@ -1274,7 +1274,7 @@ void LSM9DS1::toggleLowPowerMode(bool enable)
 	settings.mag.lowPowerEnable = enable;
 
 	uint8_t temp = xgReadByte(CTRL_REG3_G);
-	temp |= settings.gyro.lowPowerEnable ? (1<<7) : (0<<7);
+	temp = (settings.gyro.lowPowerEnable|(1 << 7));
 	xgWriteByte(CTRL_REG3_G, temp);
 
 	temp = mReadByte(CTRL_REG3_M);
