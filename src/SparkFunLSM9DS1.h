@@ -362,7 +362,7 @@ protected:
 	
 	// init() -- Sets up gyro, accel, and mag settings to default.
 	// to set com interface and/or addresses see begin() and beginSPI().
-	void init();
+	void setupDefaults();
 	
 	// initGyro() -- Sets up the gyroscope to begin reading.
 	// This function steps through all five gyroscope control registers.
@@ -376,7 +376,7 @@ protected:
 	//	- CTRL_REG4_G = 0x00: Continuous update mode. Data LSB stored in lower
 	//		address. Scale set to 245 DPS. SPI mode set to 4-wire.
 	//	- CTRL_REG5_G = 0x00: FIFO disabled. HPF disabled.
-	void initGyro();
+	void updateGyro();
 	
 	// initAccel() -- Sets up the accelerometer to begin reading.
 	// This function steps through all accelerometer related control registers.
@@ -386,7 +386,7 @@ protected:
 	//		all axes enabled.
 	//	- CTRL_REG2_XM = 0x00:  2g scale. 773 Hz anti-alias filter BW.
 	//	- CTRL_REG3_XM = 0x04: Accel data ready signal on INT1_XM pin.
-	void initAccel();
+	void updateAccel();
 	
 	// initMag() -- Sets up the magnetometer to begin reading.
 	// This function steps through all magnetometer-related control registers.
@@ -397,7 +397,7 @@ protected:
 	//	- CTRL_REG6_XM = 0x00:  2 Gs scale.
 	//	- CTRL_REG7_XM = 0x00: Continuous conversion mode. Normal HPF mode.
 	//	- INT_CTRL_REG_M = 0x09: Interrupt active-high. Enable interrupts.
-	void initMag();
+	void updateMag();
 	
 	// gReadByte() -- Reads a byte from a specified gyroscope register.
 	// Input:
