@@ -349,7 +349,7 @@ public:
 	void updateAccel();
 	void updateGyro();
 	void updateMag();
-		
+	void reboot(bool softReset = false);
 
 protected:	
 	// x_mAddress and gAddress store the I2C address or SPI chip select pin

@@ -463,7 +463,18 @@ void LSM9DS1::magOffset(uint8_t axis, int16_t offset)
 
 void LSM9DS1::updateMag()
 {
+	// reboot / soft reset first if needed
 	uint8_t tempRegValue = 0;
+	if (settings.mag.reboot) {
+		tempRegValue |= (0x1 << 3);
+		settings.mag.reboot = false;
+	}
+
+	if (settings.mag.softReset) {
+		tempRegValue |= (0x1 << 4);
+		settings.mag.softReset = false;
+	}
+	mWriteByte(CTRL_REG2_M, tempRegValue);
 	
 	// CTRL_REG1_M (Default value: 0x10)
 	// [TEMP_COMP][OM1][OM0][DO2][DO1][DO0][0][ST]
@@ -497,6 +508,7 @@ void LSM9DS1::updateMag()
 		break;
 	// Otherwise we'll default to 4 gauss (00)
 	}
+
 	mWriteByte(CTRL_REG2_M, tempRegValue); // +/-4Gauss
 	
 	// CTRL_REG3_M (Default value: 0x03)
@@ -882,6 +894,18 @@ void LSM9DS1::configInt(interrupt_select interrupt, uint8_t generator,
 	if (pushPull) temp &= ~(1<<4);
 	else temp |= (1<<4);
 	
+	xgWriteByte(CTRL_REG8, temp);
+}
+
+void LSM9DS1::reboot(bool softReset)
+{
+	uint8_t temp;
+	temp = xgReadByte(CTRL_REG8);
+	temp |= 0x80;
+
+	if (softReset)
+		temp |= 0x01;
+
 	xgWriteByte(CTRL_REG8, temp);
 }
 

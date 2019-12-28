@@ -230,6 +230,8 @@ struct magSettings
 	uint8_t ZPerformance;
 	uint8_t lowPowerEnable;
 	uint8_t operatingMode;
+	bool reboot = false;
+	bool softReset = false;
 };
 
 struct temperatureSettings
