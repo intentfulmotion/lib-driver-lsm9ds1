@@ -182,13 +182,13 @@ uint16_t LSM9DS1::begin(uint8_t agAddress, uint8_t mAddress, TwoWire &wirePort)
 		return 0;
 	
 	// Gyro initialization stuff:
-	initGyro();	// This will "turn on" the gyro. Setting up interrupts, etc.
+	updateGyro();	// This will "turn on" the gyro. Setting up interrupts, etc.
 	
 	// Accelerometer initialization stuff:
-	initAccel(); // "Turn on" all axes of the accel. Set up interrupts, etc.
+	updateAccel(); // "Turn on" all axes of the accel. Set up interrupts, etc.
 	
 	// Magnetometer initialization stuff:
-	initMag(); // "Turn on" all axes of the mag. Set up interrupts, etc.
+	updateMag(); // "Turn on" all axes of the mag. Set up interrupts, etc.
 
 	// Once everything is initialized, return the WHO_AM_I registers we read:
 	return whoAmICombined;
