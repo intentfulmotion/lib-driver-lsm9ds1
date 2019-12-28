@@ -188,9 +188,9 @@ uint16_t LSM9DS1::begin(uint8_t agAddress, uint8_t mAddress, TwoWire &wirePort, 
 
 	// To verify communication, we can read from the WHO_AM_I register of
 	// each device. Store those in a variable so we can return them.
-	uint8_t mTest = mReadByte(WHO_AM_I_M);		// Read the gyro WHO_AM_I
-	uint8_t xgTest = xgReadByte(WHO_AM_I_XG);	// Read the accel/mag WHO_AM_I
-	uint16_t whoAmICombined = (xgTest << 8) | mTest;
+	mTest = mReadByte(WHO_AM_I_M);		// Read the gyro WHO_AM_I
+	xgTest = xgReadByte(WHO_AM_I_XG);	// Read the accel/mag WHO_AM_I
+	whoAmICombined = (xgTest << 8) | mTest;
 	
 	if (whoAmICombined != ((WHO_AM_I_AG_RSP << 8) | WHO_AM_I_M_RSP))
 		return 0;
@@ -245,9 +245,9 @@ uint16_t LSM9DS1::beginSPI(uint8_t ag_CS_pin, uint8_t m_CS_pin, bool shouldReboo
 	
 	// To verify communication, we can read from the WHO_AM_I register of
 	// each device. Store those in a variable so we can return them.
-	uint8_t mTest = mReadByte(WHO_AM_I_M);		// Read the gyro WHO_AM_I
-	uint8_t xgTest = xgReadByte(WHO_AM_I_XG);	// Read the accel/mag WHO_AM_I
-	uint16_t whoAmICombined = (xgTest << 8) | mTest;
+	mTest = mReadByte(WHO_AM_I_M);		// Read the gyro WHO_AM_I
+	xgTest = xgReadByte(WHO_AM_I_XG);	// Read the accel/mag WHO_AM_I
+	whoAmICombined = (xgTest << 8) | mTest;
 	
 	if (whoAmICombined != ((WHO_AM_I_AG_RSP << 8) | WHO_AM_I_M_RSP))
 		return 0;
