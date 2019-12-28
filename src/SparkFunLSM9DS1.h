@@ -344,6 +344,11 @@ public:
 	void setMagPerformanceMode(uint8_t mode);
 	void setMagOperatingMode(uint8_t mode);
 	void toggleLowPowerMode(bool enable);
+
+	void setupDefaults();
+	void updateAccel();
+	void updateGyro();
+	void updateMag();
 		
 
 protected:	
@@ -359,45 +364,6 @@ protected:
 	// _autoCalc keeps track of whether we're automatically subtracting off
 	// accelerometer and gyroscope bias calculated in calibrate().
 	bool _autoCalc;
-	
-	// init() -- Sets up gyro, accel, and mag settings to default.
-	// to set com interface and/or addresses see begin() and beginSPI().
-	void setupDefaults();
-	
-	// initGyro() -- Sets up the gyroscope to begin reading.
-	// This function steps through all five gyroscope control registers.
-	// Upon exit, the following parameters will be set:
-	//	- CTRL_REG1_G = 0x0F: Normal operation mode, all axes enabled. 
-	//		95 Hz ODR, 12.5 Hz cutoff frequency.
-	//	- CTRL_REG2_G = 0x00: HPF set to normal mode, cutoff frequency
-	//		set to 7.2 Hz (depends on ODR).
-	//	- CTRL_REG3_G = 0x88: Interrupt enabled on INT_G (set to push-pull and
-	//		active high). Data-ready output enabled on DRDY_G.
-	//	- CTRL_REG4_G = 0x00: Continuous update mode. Data LSB stored in lower
-	//		address. Scale set to 245 DPS. SPI mode set to 4-wire.
-	//	- CTRL_REG5_G = 0x00: FIFO disabled. HPF disabled.
-	void updateGyro();
-	
-	// initAccel() -- Sets up the accelerometer to begin reading.
-	// This function steps through all accelerometer related control registers.
-	// Upon exit these registers will be set as:
-	//	- CTRL_REG0_XM = 0x00: FIFO disabled. HPF bypassed. Normal mode.
-	//	- CTRL_REG1_XM = 0x57: 100 Hz data rate. Continuous update.
-	//		all axes enabled.
-	//	- CTRL_REG2_XM = 0x00:  2g scale. 773 Hz anti-alias filter BW.
-	//	- CTRL_REG3_XM = 0x04: Accel data ready signal on INT1_XM pin.
-	void updateAccel();
-	
-	// initMag() -- Sets up the magnetometer to begin reading.
-	// This function steps through all magnetometer-related control registers.
-	// Upon exit these registers will be set as:
-	//	- CTRL_REG4_XM = 0x04: Mag data ready signal on INT2_XM pin.
-	//	- CTRL_REG5_XM = 0x14: 100 Hz update rate. Low resolution. Interrupt
-	//		requests don't latch. Temperature sensor disabled.
-	//	- CTRL_REG6_XM = 0x00:  2 Gs scale.
-	//	- CTRL_REG7_XM = 0x00: Continuous conversion mode. Normal HPF mode.
-	//	- INT_CTRL_REG_M = 0x09: Interrupt active-high. Enable interrupts.
-	void updateMag();
 	
 	// gReadByte() -- Reads a byte from a specified gyroscope register.
 	// Input:
