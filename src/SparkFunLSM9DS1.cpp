@@ -205,8 +205,6 @@ uint16_t LSM9DS1::beginSPI(uint8_t ag_CS_pin, uint8_t m_CS_pin)
 	_xgAddress = settings.device.agAddress;
 	_mAddress = settings.device.mAddress;
 	
-	init();
-	
 	constrainScales();
 	// Once we have the scale values, we can calculate the resolution
 	// of each sensor. That's what these functions are for. One for each sensor
