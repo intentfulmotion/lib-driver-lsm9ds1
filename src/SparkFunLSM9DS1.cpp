@@ -137,7 +137,7 @@ void LSM9DS1::setupDefaults()
 }
 
 
-uint16_t LSM9DS1::begin(uint8_t agAddress, uint8_t mAddress, TwoWire &wirePort)
+uint16_t LSM9DS1::begin(uint8_t agAddress, uint8_t mAddress, TwoWire &wirePort, bool shouldReboot, bool shouldSoftReset)
 {
 	// Set device settings, they are used in many other places
 	settings.device.commInterface = IMU_MODE_I2C;
@@ -180,6 +180,9 @@ uint16_t LSM9DS1::begin(uint8_t agAddress, uint8_t mAddress, TwoWire &wirePort)
 	
 	if (whoAmICombined != ((WHO_AM_I_AG_RSP << 8) | WHO_AM_I_M_RSP))
 		return 0;
+
+	if (shouldReboot)
+		reboot(shouldSoftReset);
 	
 	// Gyro initialization stuff:
 	updateGyro();	// This will "turn on" the gyro. Setting up interrupts, etc.
@@ -194,7 +197,7 @@ uint16_t LSM9DS1::begin(uint8_t agAddress, uint8_t mAddress, TwoWire &wirePort)
 	return whoAmICombined;
 }
 
-uint16_t LSM9DS1::beginSPI(uint8_t ag_CS_pin, uint8_t m_CS_pin)
+uint16_t LSM9DS1::beginSPI(uint8_t ag_CS_pin, uint8_t m_CS_pin, bool shouldReboot, bool shouldSoftReset)
 {
 	// Set device settings, they are used in many other places
 	settings.device.commInterface = IMU_MODE_SPI;
@@ -223,6 +226,9 @@ uint16_t LSM9DS1::beginSPI(uint8_t ag_CS_pin, uint8_t m_CS_pin)
 	
 	if (whoAmICombined != ((WHO_AM_I_AG_RSP << 8) | WHO_AM_I_M_RSP))
 		return 0;
+
+	if (shouldReboot)
+		reboot(shouldSoftReset);		
 	
 	// Gyro initialization stuff:
 	updateGyro();	// This will "turn on" the gyro. Setting up interrupts, etc.

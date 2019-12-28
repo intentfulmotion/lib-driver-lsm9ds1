@@ -83,8 +83,8 @@ public:
 	// - i2C port (Note, only on "begin()" funtion, for use with I2C com interface)
 	//   defaults to Wire, but if hardware supports it, can use other TwoWire ports.
 	//   **For SPI use "beginSPI()", and only send first two address arguments.
-	uint16_t begin(uint8_t agAddress = LSM9DS1_AG_ADDR(1), uint8_t mAddress = LSM9DS1_M_ADDR(1), TwoWire &wirePort = Wire); //By default use the default I2C addres, and use Wire port
-	uint16_t beginSPI(uint8_t ag_CS_pin, uint8_t m_CS_pin);
+	uint16_t begin(uint8_t agAddress = LSM9DS1_AG_ADDR(1), uint8_t mAddress = LSM9DS1_M_ADDR(1), TwoWire &wirePort = Wire, bool shouldReboot = false, bool shouldSoftReset = false); //By default use the default I2C addres, and use Wire port
+	uint16_t beginSPI(uint8_t ag_CS_pin, uint8_t m_CS_pin, bool shouldReboot = false, bool shouldSoftReset = false);
 	
 	void calibrate(bool autoCalc = true);
 	void calibrateMag(bool loadIn = true);
