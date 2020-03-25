@@ -929,10 +929,11 @@ void LSM9DS1::reboot(bool softReset)
 {
 	uint8_t temp;
 	temp = xgReadByte(CTRL_REG8);
-	temp |= 0x80;
 
 	if (softReset)
 		temp |= 0x01;
+
+	temp |= 0x80;
 
 	xgWriteByte(CTRL_REG8, temp);
 }
@@ -944,7 +945,6 @@ void LSM9DS1::configInactivity(uint8_t duration, uint8_t threshold, bool sleepOn
 	temp = threshold & 0x7F;
 	if (sleepOn) temp |= (1<<7);
 	xgWriteByte(ACT_THS, temp);
-	
 	xgWriteByte(ACT_DUR, duration);
 }
 
